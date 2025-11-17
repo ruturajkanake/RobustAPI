@@ -23,7 +23,7 @@ def main(
     os.makedirs(result_dir, exist_ok=True)
         
     print("Loading model and tokenizer...")
-    device = torch.device("cuda:%d" % gpu)
+    device = torch.device("cuda:0")
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, trust_remote_code=True)
     
     if 'llama' in tokenizer_path.lower():
@@ -44,11 +44,11 @@ def main(
             p = json.loads(p)
             shots = []
             try:
-                shots = generateShot(p['api'], number = shot_number)
+                shots = generateShot(p['api'], number = shot_number, type = 'example')
             except:
                 print("ERROR: No shots for api", p['api'])
                 continue
-            prompt = generatePrompt(p['api'], p['question'], shots)
+            prompt = generatePrompt(p['api'], p['question'], shots, type = 'example')
             samples.append((prompt, i, p['api']))
     print("Total samples:", len(samples))
     
