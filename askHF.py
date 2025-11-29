@@ -36,7 +36,7 @@ def main(
     samples = []
     with open(question, "r") as f:
         lines = f.readlines()
-        prompts = [line.strip() for line in lines][:50]
+        prompts = [line.strip() for line in lines]
         for i, p in enumerate(prompts):
             check_path = os.path.join(result_dir, str(i) + ".json")
             if os.path.isfile(check_path):
@@ -50,7 +50,6 @@ def main(
                 continue
             prompt = generatePrompt(p['api'], p['question'], shots, type = 'example')
             samples.append((prompt, i, p['api']))
-    samples = samples[:50]
     print("Total samples:", len(samples))
     
     print("Generating responses...")
